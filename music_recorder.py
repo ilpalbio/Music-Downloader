@@ -2,6 +2,9 @@
 # classe per il music_recorder
 # deve salvare su file quello che il telefono risce a sentire e salvarlo su un file
 
+# guardare 
+# https://gist.github.com/kepler62f/9d5836a1eff8b372ddf6de43b5b74d95
+
 # librerie
 import pyaudio
 import wave
@@ -30,7 +33,7 @@ class MusicRecorder():
             rate = self.rate,
             input = True,  # input = True significa che registrerà l'audio in input e non lo riproducerà
             frames_per_buffer = self.frames_per_buffer,
-            stream_callback = self.stop_record # callback
+            stream_callback = self.store_record # callback
             )
 
         # inizio della stream

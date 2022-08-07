@@ -6,9 +6,11 @@
 # 
 # LIBRERIE NECESSARIE PER IL PROGETTO
 # Python3: interprete per il codice
-# PyAudio: servirà per registrare la canzone
-# Youtube-dl: servirà per scaricare la canzone da youtube 
-# Scazamio: servirà per capire di che canzone si tratta quella registrata
+# PyAudio: serve per registrare la canzone
+# Youtube-dl: serve per scaricare la canzone da youtube 
+# Scazamio: serve per capire di che canzone si tratta quella registrata
+# Requests: serve per accedere alla pagina di youtube per estrarre il link della canzone
+# Re: serve a riconoscere i link nell'html della pagina youtube
 
 # classe principale del music_downloader
 # il codice principale sarà in questo file
