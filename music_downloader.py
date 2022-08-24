@@ -12,48 +12,26 @@
 # Requests: serve per accedere alla pagina di youtube per estrarre il link della canzone
 # Re: serve a riconoscere i link nell'html della pagina youtube
 # Asyncio: serve per lavorare con shazamio utilizzando delle funzioni asincrone
+# Os: serve a interagire con il sistema operativo
 
-# classe principale del music_downloader
 # il codice principale sarà in questo file
 
 # documentazione
 # youtube-dl: https://github.com/ytdl-org/youtube-dl/blob/master/README.md#embedding-youtube-dl
 # shazamio: https://pypi.org/project/shazamio/
 
-# librerie
-import youtube_dl
-from youtube_url_extractor import UrlExtractor
-from shazam import MusicShazam
-
-class MusicDownloader:
-    # costruttore
-    def __init__(self):
-        self.youtube_options = {
-            'format' : 'bestaudio/best', # qualità dell'audio bestaudio è solo per l'audio metre best è anche per il video
-            
-            'progress_hooks' : [
-                self.installation_info
-            ],
-            
-            'postprocessors': [{
-                'key': 'FFmpegExtractAudio',
-                'preferredcodec': 'mp3',
-            }],
-        }
-
-    # metodo per scaricare la canzone
-    def download_music(self, link):
-        with youtube_dl.YoutubeDL(self.youtube_options) as youtube:
-            youtube.download([link])
-            
-    # metodo per visualizzare le informazioni del download della canzone
-    def installation_info(self, d):
-        if d['status'] =='finished':
-            print('Download completato con successo')
-            
+# link per installare anaconda
+# https://repo.anaconda.com/archive/Anaconda3-2022.05-Linux-x86_64.sh
 
 
-# if __file__ == '__main__':
+# file delle impostazioni
+import settings
+
+# altri file
+from logic.youtube_url_extractor import UrlExtractor
+from logic.shazam import MusicShazam
+from logic.downloader import MusicDownloader
+
 # parte di shazam
 print('Avvio di Shazam...')
 shazam = MusicShazam()
