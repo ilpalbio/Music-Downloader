@@ -6,7 +6,8 @@
 # 
 # LIBRERIE NECESSARIE PER IL PROGETTO
 # Python3: interprete per il codice
-# PyAudio: serve per registrare la canzone
+# Sounddevice: serve per registrare la canzone
+# Se su ubuntu non installa pyaudio con 'pip install pyaudio' eseguire prima 'sudo apt-get install portaudio19-dev python-pyaudio'
 # Youtube-dl: serve per scaricare la canzone da youtube 
 # Scazamio: serve per capire di che canzone si tratta quella registrata
 # Requests: serve per accedere alla pagina di youtube per estrarre il link della canzone
@@ -19,10 +20,6 @@
 # documentazione
 # youtube-dl: https://github.com/ytdl-org/youtube-dl/blob/master/README.md#embedding-youtube-dl
 # shazamio: https://pypi.org/project/shazamio/
-
-# link per installare anaconda
-# https://repo.anaconda.com/archive/Anaconda3-2022.05-Linux-x86_64.sh
-
 
 # file delle impostazioni
 import settings
