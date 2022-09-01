@@ -3,42 +3,81 @@
 # deve salvare su file quello che il telefono risce a sentire e salvarlo su un file
 
 # guardare 
-
+# https://gist.github.com/kepler62f/9d5836a1eff8b372ddf6de43b5b74d95
 
 # librerie
-import sounddevice
+import pyaudio
 import wave
+import time
 
 class MusicRecorder:
-    def __init__(self, rec_duration = 10): # costruttore
-        # valori per la registrazione
-        self.rec_duration = rec_duration # durata della registrazione (secondi)
-        self.samplerate = 1600 # velocità di campionamento (hz)
-        self.channels = 1 # nuemero di canali da registrare
-        self.dtype = 'int16' # tipo di dato utilizzato per la registrazione del suono
+    def __init__(self, file_name): # costruttore
+        # creazione di una istanza di PyAudio
+        self.audo_instance = pyaudio.PyAudio()
 
-        self.rec = [] # array in cui verrà mssa la registrazione
+        # impostazioni della registrazione
+        self.channels = 1 # 1 mono, 2 stereo
+        self.rate = 16000 # velocità di campionamento del microfono (hertz)
+        self.frames_per_buffer = 1024
+        self.stream = None # stream
+        self.clip_duration = 15
 
-    def start_record(self):
-        print('Inizio della registrazione...')
-        self.rec = sounddevice.rec(
-            frames = int(self.rec_duration * self.samplerate), # frames è la lunghezza totale della traccia audio
-            samplerate = self.samplerate,
+        self.frames = [] # lista dove sono contenuti i bytes della registrazione
+
+        # impostazione del file wav
+        self.file_name = file_name
+        self.file_mode = 'wb'
+
+        self.wav_file = self.prepare_wav(self.file_name, self.file_mode) # file dove viene salvata la regstrazione
+
+
+
+    def start_record(self): # metodo per iniziare la registrazione della canzone
+        # apertura della stream
+        self.stream = self.audo_instance.open(
+            format = pyaudio.paInt16,
             channels = self.channels,
-            dtype = self.dtype,
+            rate = self.rate,
+            input = True,  # input = True significa che registrerà l'audio in input e non lo riproducerà
+            frames_per_buffer = self.frames_per_buffer,
+            stream_callback = self.get_callback() # callback
             )
 
-        sounddevice.stop()
-        print('Fine della registrazione')
+        # inizio della stream
+        self.stream.start_stream()
 
-        print(self.rec)
+        time.sleep(self.clip_duration)
 
-    def create_wav(self, filename = 'audio.wav', mode = 'wb'): # metodo per aprire il file dove verrà messa la registrazione
-        file = wave.open(filename, mode) # apertura del file
-        file.setchannels(self.channels)
-        file.setsampwith(self.audo_instance.get_sample_size(pyaudio.paInt16))
+
+
+    def stop_record(self): # metodo per fermare la registrazione
+        # stop della stream
+        self.stream.stop_stream()
+
+
+    def close(self):
+        # chiusura della stream
+        self.stream.close()
+
+        # chiusura di pyaudio
+        self.audo_instance.terminate()
+
+        # chiusura del file
+        self.wav_file.close()
+
+
+    def get_callback(self):
+        def callback(in_data, frame_count, time_info, status_flag):
+            # aggiunta dei dati alla lista 
+            data = self.wav_file.writeframes(in_data)
+
+            return (data, pyaudio.paContinue)
+
+        return callback
+
+    def prepare_wav(self, file_name, mode): # metodo per aprire il file dove verrà messa la registrazione
+        file = wave.open(self.file_name, self.file_mode) # apertura del file
+        file.setnchannels(self.channels)
+        file.setsampwidth(self.audo_instance.get_sample_size(pyaudio.paInt16))
         file.setframerate(self.rate)
         return file
-
-rec = MusicRecorder()
-rec.start_record()

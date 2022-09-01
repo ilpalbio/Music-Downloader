@@ -28,10 +28,24 @@ import settings
 from logic.youtube_url_extractor import UrlExtractor
 from logic.shazam import MusicShazam
 from logic.downloader import MusicDownloader
+from logic.recorder import MusicRecorder
+
+# parte della registrazione della canzone
+recorder = MusicRecorder(file_name = settings.NAME_REC_FILE)
+
+# inizione della registrazione
+print('Inizio della registrazione...')
+recorder.start_record()
+
+print('Fine della registrazione')
+recorder.stop_record
+recorder.close()
+
+print()
 
 # parte di shazam
 print('Avvio di Shazam...')
-shazam = MusicShazam()
+shazam = MusicShazam(nfile = settings.NAME_REC_FILE)
 
 print('Riconoscimento della traccia audio completato')
 music_title = shazam.music_title
@@ -58,7 +72,7 @@ print()
 
 
 # parte del downloader 
-music_downloader = MusicDownloader()
+music_downloader = MusicDownloader(file_path = settings.MUSIC_PATH)
 
 print('Inizio del download del link ', music_link, '...')
 music_downloader.download_music(music_link)

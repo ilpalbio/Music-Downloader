@@ -3,7 +3,7 @@ import youtube_dl
 
 class MusicDownloader:
     # costruttore
-    def __init__(self):
+    def __init__(self, file_path):
         self.youtube_options = {
             'format' : 'bestaudio/best', # qualità dell'audio bestaudio è solo per l'audio metre best è anche per il video
             
@@ -15,6 +15,8 @@ class MusicDownloader:
                 'key': 'FFmpegExtractAudio',
                 'preferredcodec': 'mp3',
             }],
+
+            'outtmpl': file_path + '%(title)s.%(ext)s', # come verrà salvato il nome del file scaricato
         }
 
     # metodo per scaricare la canzone

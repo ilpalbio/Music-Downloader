@@ -7,7 +7,7 @@ import asyncio
 class MusicShazam:
     # costruttore
     def __init__(self, nfile = 'music.wav'):
-        self.__nfile = nfile
+        self.nfile = nfile
         self.music_title = None
         self.music_artist = None
         
@@ -17,7 +17,7 @@ class MusicShazam:
     async def __recognize_song(self):
         shazam = shazamio.Shazam()
         
-        music = await shazam.recognize_song(self.__nfile)
+        music = await shazam.recognize_song(self.nfile)
         
         return music
 
